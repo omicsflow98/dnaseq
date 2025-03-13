@@ -1,0 +1,33 @@
+title: "test"
+report_header_info:
+- Contact E-mail: "mohamadelian1996@gmail.com"
+
+table_columns_visible:
+ Alternative_Alignments: False
+ Chimeric_Reads: False
+ Duplicate_Reads: False
+ End_1_Mapped_Reads: False
+ End_2_Mapped_Reads: False
+ End_1_Mismatches: False
+ End_2_Mismatches: False
+ Ambiguous_Reads: False
+ High_Quality_Reads: False
+ Low_Quality_Reads: False
+ Mapped_Duplicate_Reads: False
+ Mapped_Unique_Reads: False
+ Non_Globin_Reads: False
+ Non_Globin_Duplicate_Reads: False
+ rRNA_Reads: False
+ Unique_Mapping_Vendor_QC_Passed_Reads: False
+
+ star_summary_table:
+  total_reads: False
+
+remove_sections:
+- fastqc_per_base_sequence_content
+- fastqc_per_sequence_quality_scores
+- fastqc_per_sequence_gc_content
+- fastqc_per_base_n_content
+- fastqc_sequence_length_distribution
+- fastqc_sequence_duplication_levels
+- fastqc_overrepresented_sequences
