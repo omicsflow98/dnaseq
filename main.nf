@@ -2,6 +2,7 @@
 
 include {runfastqc} from './processes/fastqc.nf'
 include {trimmomatic} from './processes/trimmomatic.nf'
+include {bwa} from './processes/bwa.nf'
 
 workflow {
 
@@ -11,5 +12,6 @@ workflow {
 
 	trimmomatic(reads_ch)
 
+	bwa(trimmomatic.out.trimmed_fastq)
 }
 
