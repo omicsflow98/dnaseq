@@ -12,8 +12,9 @@ process runfastqc {
 	val("process_complete"), emit: control_1
 
         """
-        echo ${launchDir}
-        echo ${projectDir}
+        fastqc -o . \
+        ${reads[0]} \
+        ${reads[1]}
         """
 
 }
