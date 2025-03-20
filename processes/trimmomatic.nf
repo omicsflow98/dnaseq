@@ -14,7 +14,7 @@ process trimmomatic {
         """
         trimmomatic PE \
         -phred33 \
-	      -threads 4 \
+	-threads 8 \
         ${reads[0]} \
         ${reads[1]} \
         ${sample_id}_R1_P.fastq.gz \
