@@ -17,7 +17,7 @@ process bwa {
         read LibName Barcode Platform <<< \$(awk -v n="${namepair}" '\$1 == n {print \$2, \$3, \$4}' ${launchDir}/info.tsv)
 
         bwa mem \
-        ${launchDir}/../../reference/${params.species}/${params.refversion}/index/bwa_index \
+        ${launchDir}/../../reference/${params.species}/${params.refversion}/index/bwa/genome.fa \
         ${fastq[0]} \
         ${fastq[1]} \
         -t 8 \
