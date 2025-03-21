@@ -13,18 +13,20 @@ process BQSR {
         script:
 
         """
-	gatk BaseRecalibrator \
+	gatk BaseRecalibratorSpark \
         -I ${bam} \
         -R ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
         --known-sites ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.vcf \
         --TMP_DIR \$TMPDIR \
+	--spark-master local[*] 
         -O ${name}.table
 
-        gatk ApplyBQSR \
+        gatk ApplyBQSRSpark \
         -I ${bam} \
         -R ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
         --bqsr-recal-file ${name}.table \
         --TMP_DIR \$TMPDIR \
+	--spark-master local[*]
         -O ${name}.recal.bam
 
         """
