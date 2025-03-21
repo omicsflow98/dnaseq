@@ -8,7 +8,7 @@ process bwa {
         path fastq
 
         output:
-        path("*.bam"), emit: bam_files
+        path("*.sortedByCoord.out.bam"), emit: bam_files
 
         script:
         def namepair = fastq[0].toString().replaceAll(/.fastq.gz/, "")
@@ -22,7 +22,13 @@ process bwa {
         ${fastq[1]} \
         -t 8 \
         -p \
-        -R '@RG\\tID:${namepair}\\tPL:\$Platform\\tPU:\$Barcode\\tLB:\$LibName\\tSM:${namepair}'
+        -R '@RG\\tID:${namepair}\\tPL:\$Platform\\tPU:\$Barcode\\tLB:\$LibName\\tSM:${namepair}' > ${namepair}.bam
+
+	samtools sort \
+	-o ${namepair}.sortedByCoord.out.bam \
+	-O bam \
+	--threads 7 \
+	${namepair}.bam
         
         """
 }
