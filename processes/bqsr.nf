@@ -13,7 +13,7 @@ process BQSR {
         script:
 
         """
-	      gatk BaseRecalibrator \
+	gatk BaseRecalibrator \
         -I ${bam} \
         -R ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
         --known-sites ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.vcf \
