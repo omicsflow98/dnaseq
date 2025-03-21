@@ -8,7 +8,7 @@ process bwa {
         path fastq
 
         output:
-        path("*.sortedByCoord.out.bam"), emit: bam_files
+        tuple val(namepair), path("*.sortedByCoord.out.bam"), emit: bam_files
 
         script:
         def namepair = fastq[0].toString().replaceAll(/.fastq.gz/, "")
