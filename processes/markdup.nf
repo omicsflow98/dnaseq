@@ -16,20 +16,20 @@ process markduplicates {
 	"""
 
 	gatk MarkDuplicatesSpark \
-	--REMOVE_DUPLICATES false \
-	--VALIDATION_STRINGENCY SILENT \
-	--INPUT ${bam} \
-	--TMP_DIR \$TMPDIR \
+	--remove-all-duplicates false \
+	--read-validation-stringency SILENT \
+	--input ${bam} \
+	--tmp-dir \$TMPDIR \
 	--spark-master local[*] \
-	--METRICS_FILE ${name}.markdup.txt \
-	--OUTPUT ${name}.markdup.bam
+	--metrics-file ${name}.markdup.txt \
+	--output ${name}.markdup.bam
 
 	gatk CollectBaseDistributionByCycleSpark \
-	-CHART ${name}.pdf \
-	--TMP_DIR \$TMPDIR \
-	--spark-master local[*]
-	-I ${name}.markdup.bam \
-	-O ${name}.txt
+	--chart ${name}.pdf \
+	--tmp-dir \$TMPDIR \
+	--spark-master local[*] \
+	--input ${name}.markdup.bam \
+	--output ${name}.txt
 
         """
 }
