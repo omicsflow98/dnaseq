@@ -24,9 +24,10 @@ process markduplicates {
 	--METRICS_FILE ${name}.markdup.txt \
 	--OUTPUT ${name}.markdup.bam
 
-	gatk CollectBaseDistributionByCycle \
+	gatk CollectBaseDistributionByCycleSpark \
 	-CHART ${name}.pdf \
 	--TMP_DIR \$TMPDIR \
+	--spark-master local[*]
 	-I ${name}.markdup.bam \
 	-O ${name}.txt
 
