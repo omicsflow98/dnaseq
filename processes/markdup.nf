@@ -1,6 +1,6 @@
 process markduplicates {
 
-        label 'markdup'
+	label 'markdup'
 
         publishDir "${params.outdir}/output/markdup"
 
@@ -9,7 +9,7 @@ process markduplicates {
 
         output:
         tuple val(name), path("*.markdup.bam"), emit: mark_dup
-	      path("*.txt"), emit: metrics
+	path("*.txt"), emit: metrics
 
         script:
        
