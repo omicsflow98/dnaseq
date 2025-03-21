@@ -15,11 +15,12 @@ process markduplicates {
        
 	"""
 
-	gatk MarkDuplicates \
+	gatk MarkDuplicatesSpark \
 	--REMOVE_DUPLICATES false \
 	--VALIDATION_STRINGENCY SILENT \
 	--INPUT ${bam} \
 	--TMP_DIR \$TMPDIR \
+	--spark-master local[*] \
 	--METRICS_FILE ${name}.markdup.txt \
 	--OUTPUT ${name}.markdup.bam
 
