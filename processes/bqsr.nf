@@ -18,7 +18,7 @@ process BQSR {
         -R ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
         --known-sites ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.vcf \
         --TMP_DIR \$TMPDIR \
-	--spark-master local[*] 
+	--spark-master local[*] \
         -O ${name}.table
 
         gatk ApplyBQSRSpark \
@@ -26,7 +26,7 @@ process BQSR {
         -R ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
         --bqsr-recal-file ${name}.table \
         --TMP_DIR \$TMPDIR \
-	--spark-master local[*]
+	--spark-master local[*] \
         -O ${name}.recal.bam
 
         """
