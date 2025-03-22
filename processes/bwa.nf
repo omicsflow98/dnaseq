@@ -11,7 +11,7 @@ process bwa {
         tuple val(namepair), path("*.sortedByCoord.out.bam"), emit: bam_files
 
         script:
-        def namepair = fastq[0].toString().replaceAll(/_R1_P.fastq.gz/, "")
+        namepair = fastq[0].toString().replaceAll(/_R1_P.fastq.gz/, "")
 
         """
         read LibName Barcode Platform <<< \$(awk -v n="${namepair}" '\$1 == n {print \$2, \$3, \$4}' ${launchDir}/info.tsv)
