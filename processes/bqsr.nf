@@ -17,7 +17,6 @@ process BQSR {
         --input ${bam} \
         --reference ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
         --known-sites ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.vcf \
-        --TMP_DIR \$TMPDIR \
 	--spark-master local[*] \
         --output ${name}.table
 
