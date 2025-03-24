@@ -8,7 +8,7 @@ process gvcf {
         tuple val(name), path(bam)
 
         output:
-        path("*.vcf.gz"), emit: vcf_files
+        tuple val(name), path("*.vcf.gz"), emit: vcf_files
 
         script:
 
