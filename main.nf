@@ -5,6 +5,7 @@ include {trimmomatic} from './processes/trimmomatic.nf'
 include {bwa} from './processes/bwa.nf'
 include {markduplicates} from './processes/markdup.nf'
 include {BQSR} from './processes/bqsr.nf'
+include {gvcf} from './processes/VariantCalling.nf'
 
 workflow {
 
@@ -19,5 +20,7 @@ workflow {
 	markduplicates(bwa.out.bam_files)
 
 	BQSR(markduplicates.out.mark_dup)
+
+	gvcf(BQSR.out.bam_bqsr)
 }
 
