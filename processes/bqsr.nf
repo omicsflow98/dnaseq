@@ -8,7 +8,7 @@ process BQSR {
         tuple val(name), path(bam)
 
         output:
-        path("*.recal.bam"), emit: tab_files
+        tuple val(name), path("*.recal.bam"), emit: bam_markdup
 
         script:
 
