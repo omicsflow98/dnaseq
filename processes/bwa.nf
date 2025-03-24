@@ -22,7 +22,7 @@ process bwa {
         ${fastq[1]} \
         -t 8 \
         -p \
-        -R '@RG\\tID:${namepair}\\tPL:\$Platform\\tPU:\$Barcode\\tLB:\$LibName\\tSM:${namepair}' > ${namepair}.bam
+        -R "@RG\\tID:${namepair}\\tPL:\$Platform\\tPU:\$Barcode\\tLB:\$LibName\\tSM:${namepair}" > ${namepair}.bam
 
 	samtools sort \
 	-o ${namepair}.sortedByCoord.out.bam \
