@@ -13,7 +13,7 @@ process gvcf {
         script:
 
         """
-	      gatk HaplotypeCaller \
+	gatk HaplotypeCaller \
         --input ${bam} \
         --reference ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
         --output ${name}.vcf.gz \
