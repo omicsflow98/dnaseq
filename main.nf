@@ -6,6 +6,7 @@ include {bwa} from './processes/bwa.nf'
 include {markduplicates} from './processes/markdup.nf'
 include {BQSR} from './processes/bqsr.nf'
 include {gvcf} from './processes/VariantCalling.nf'
+include {mergedgvcf} from './processes/VariantCalling.nf'
 
 workflow {
 
@@ -22,5 +23,11 @@ workflow {
 	BQSR(markduplicates.out.mark_dup)
 
 	gvcf(BQSR.out.bam_bqsr)
+
+	gvcf.out.vcf_files
+	| collect
+	| set {collected_vcf}
+
+	mergedgvcf(collected_vcf)
 }
 
