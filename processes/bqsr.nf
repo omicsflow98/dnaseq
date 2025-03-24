@@ -13,7 +13,9 @@ process BQSR {
         script:
 
         """
-	gatk BaseRecalibratorSpark \
+	gatk \
+	--java-options "-Djava.io.tmpdir=\$TMPDIR" \
+	BaseRecalibratorSpark \
         --input ${bam} \
         --reference ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
         --known-sites ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.vcf \
