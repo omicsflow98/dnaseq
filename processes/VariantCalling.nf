@@ -13,7 +13,9 @@ process gvcf {
         script:
 
         """
-	gatk HaplotypeCaller \
+	gatk \
+	--java-options "-Xmx12G" \
+	HaplotypeCaller \
         --input ${bam} \
         --reference ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
         --output ${name}.vcf.gz \
