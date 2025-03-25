@@ -8,7 +8,7 @@ process gvcf {
         tuple val(name), path(bam)
 
         output:
-        path("*.vcf.gz"), emit: vcf_files
+        tuple path("*.vcf.gz"), path("*.vcf.gz.idx"), emit: vcf_files
 
         script:
 
@@ -21,6 +21,9 @@ process gvcf {
         --output ${name}.g.vcf.gz \
         --tmp-dir \$TMPDIR \
         -ERC GVCF
+
+	gatk IndexFeatureFile \
+	--input ${name}.g.vcf.gz
 
         """
 }
