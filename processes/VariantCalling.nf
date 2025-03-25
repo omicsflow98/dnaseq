@@ -44,12 +44,10 @@ process mergedgvcf {
 
 	def name = vcf.toString().replaceAll(/.g.vcf.gz/, "")
 
+	def name_vcf = name.zip(vcf)
+	name_vcf.toFile('samples.map')
+
         """
-	printf "%s\\n" "${name[@]}" > name.txt
-	printf "%s\\n" "${vcf[@]}" > vcf.txt
-
-	paste name.txt vcf.txt > samples.map
-
 	gatk \
 	--java-options "-Xmx32G" \
 	GenomicsDBImport \
