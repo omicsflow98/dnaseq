@@ -45,7 +45,10 @@ process mergedgvcf {
 	def name = vcf.toString().replaceAll(/.g.vcf.gz/, "")
 
         """
-	paste <(echo "${name[@]}") <(echo "${vcf[@]}") > samples.map
+	printf "%s\\n" "${name[@]}" > name.txt
+	printf "%s\\n" "${vcf[@]}" > vcf.txt
+
+	paste name.txt vcf.txt > samples.map
 
 	gatk \
 	--java-options "-Xmx32G" \
