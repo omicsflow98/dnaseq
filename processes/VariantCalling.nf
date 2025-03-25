@@ -35,7 +35,7 @@ process mergedgvcf {
         publishDir "${params.outdir}/output/gvcf_merged/"
 
         input:
-        path vcf
+        tuple path(vcf), path(index)
 
         output:
         path("*.vcf.gz"), emit: merged_vcf
