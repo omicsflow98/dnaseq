@@ -39,14 +39,18 @@ process mergedgvcf {
 
         script:
 
+	def name = vcf.toString().replaceAll(/.g.vcf.gz/, "")
+
         """
+	paste <(echo "${name[@]}") <(echo "${vcf[@]}") > samples.map
+
 	gatk \
 	--java-options "-Xmx32G" \
 	GenomicsDBImport \
         --reference ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
 	--genomicsdb-workspace-path my_genomicsdb \
 	--intervals ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.list \
-	--variant ${vcf} \
+	--sample-name-map samples.map \
 	--reader-threads 8 \
 	--tmp-dir \$TMPDIR
 
