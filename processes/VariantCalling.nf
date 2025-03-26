@@ -35,19 +35,24 @@ process mergedgvcf {
         publishDir "${params.outdir}/output/gvcf_merged/"
 
         input:
-        tuple path(vcf), path(index)
+        path(vcf_index)
 
         output:
         path("*.vcf.gz"), emit: merged_vcf
 
         script:
+	
+	def only_vcf = reads.findAll{!it.name.endsWith('.tbi')}
+        def lines = []
 
-	def name = vcf.toString().replaceAll(/.g.vcf.gz/, "")
-
-	def name_vcf = name.zip(vcf)
-	name_vcf.toFile('samples.map')
+        def sampleList = only_vcf.collect { file ->
+                def base_name = file.name.replace('.g.vcf.gz', '')
+                "${base_name}\t${file.name}"
+        }.join("\n")	
 
         """
+	echo "${sampleList}" > samples.map
+
 	gatk \
 	--java-options "-Xmx32G" \
 	GenomicsDBImport \
