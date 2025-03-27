@@ -42,8 +42,7 @@ process mergedgvcf {
 
         script:
 	
-	def only_vcf = reads.findAll{!it.name.endsWith('.tbi')}
-        def lines = []
+	def only_vcf = vcf_index.findAll{!it.name.endsWith('.tbi')}
 
         def sampleList = only_vcf.collect { file ->
                 def base_name = file.name.replace('.g.vcf.gz', '')
