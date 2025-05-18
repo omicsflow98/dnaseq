@@ -1,16 +1,16 @@
 #!/usr/bin/env nextflow
 
-include {runfastqc} from './processes/fastqc.nf'
-include {trimmomatic} from './processes/trimmomatic.nf'
-include {bwa} from './processes/bwa.nf'
-include {markduplicates} from './processes/markdup.nf'
-include {BQSR} from './processes/bqsr.nf'
-include {gvcf} from './processes/VariantCalling.nf'
-include {mergedgvcf} from './processes/VariantCalling.nf'
+include { runfastqc } from './processes/fastqc.nf'
+include { trimmomatic } from './processes/trimmomatic.nf'
+include { bwa } from './processes/bwa.nf'
+include { markduplicates } from './processes/markdup.nf'
+include { BQSR } from './processes/bqsr.nf'
+include { gvcf } from './processes/VariantCalling.nf'
+include { mergedgvcf } from './processes/VariantCalling.nf'
 
 workflow {
 
-        reads_ch = Channel.fromFilePairs(params.reads, checkIfExists: true)
+    reads_ch = Channel.fromFilePairs(params.reads, checkIfExists: true)
 
 	runfastqc(reads_ch)
 
@@ -29,5 +29,6 @@ workflow {
 	| set {collected_vcf}
 
 	mergedgvcf(collected_vcf)
+
 }
 
