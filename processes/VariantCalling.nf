@@ -3,8 +3,11 @@ process gvcf {
 	label 'gvcf'
 
         publishDir "${params.outdir}/output/gvcf/"
+	container "${params.apptainer}/gatk.sif"
 
         input:
+        path reference_dir
+        path temp_dir
         tuple val(name), path(bam)
 
         output:
@@ -17,9 +20,9 @@ process gvcf {
 	--java-options "-Xmx12G" \
 	HaplotypeCaller \
         --input ${bam} \
-        --reference ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
+        --reference ${reference_dir}/genome.fa \
         --output ${name}.g.vcf.gz \
-        --tmp-dir \$TMPDIR \
+        --tmp-dir ${temp_dir} \
         -ERC GVCF
 
 	gatk IndexFeatureFile \
@@ -33,9 +36,12 @@ process mergedgvcf {
 	label 'gvcf_merge'
 
         publishDir "${params.outdir}/output/gvcf_merged/"
+	container "${params.apptainer}/gatk.sif"
 
         input:
-        path(vcf_index)
+        path reference_dir
+        path temp_dir
+        path vcf_index
 
         output:
         path("*.vcf.gz"), emit: merged_vcf
@@ -55,17 +61,17 @@ process mergedgvcf {
 	gatk \
 	--java-options "-Xmx32G" \
 	GenomicsDBImport \
-        --reference ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
+        --reference ${reference_dir}/genome.fa \
 	--genomicsdb-workspace-path my_genomicsdb \
-	--intervals ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.list \
+	--intervals ${reference_dir}/genome.list \
 	--sample-name-map samples.map \
 	--reader-threads 8 \
-	--tmp-dir \$TMPDIR
+	--tmp-dir ${temp_dir}
 
 	gatk \
 	--java-options "-Xmx32G" \
 	GenotypeGVCFs \
-	--reference ${launchDir}/../../reference/${params.species}/${params.refversion}/genome.fa \
+	--reference ${reference_dir}/genome.fa \
 	--variant gendb://my_genomicsdb \
 	--output merged.vcf.gz
 
