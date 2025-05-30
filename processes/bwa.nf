@@ -3,32 +3,32 @@ process bwa {
 	label 'bwa'
 
         publishDir "${params.outdir}/output/bwa"
+	container "${params.apptainer}/bwa.sif"
 
         input:
+        path bwa_index
+	tuple val(SampName), val(LibName), val(Barcode), val(Platform)
         path fastq
 
         output:
-        tuple val(namepair), path("*.sortedByCoord.out.bam"), emit: bam_files
+        tuple val(SampName), path("*.sortedByCoord.out.bam"), emit: bam_files
 
         script:
-        namepair = fastq[0].toString().replaceAll(/_R1_P.fastq.gz/, "")
-
+        def idxbase = bwa_index[0].baseName
         """
-        read LibName Barcode Platform <<< \$(awk -v n="${namepair}" '\$1 == n {print \$2, \$3, \$4}' ${launchDir}/info.tsv)
-
         bwa mem \
-        ${launchDir}/../../reference/${params.species}/${params.refversion}/index/bwa/genome.fa \
+        ${idxbase} \
         ${fastq[0]} \
         ${fastq[1]} \
         -t 8 \
         -p \
-        -R "@RG\\tID:${namepair}\\tPL:\$Platform\\tPU:\$Barcode\\tLB:\$LibName\\tSM:${namepair}" > ${namepair}.bam
+        -R "@RG\\tID:${SampName}\\tPL:${Platform}\\tPU:${Barcode}\\tLB:${LibName}\\tSM:${SampName}" > ${SampName}.bam
 
 	samtools sort \
-	-o ${namepair}.sortedByCoord.out.bam \
+	-o ${SampName}.sortedByCoord.out.bam \
 	-O bam \
 	--threads 7 \
-	${namepair}.bam
+	${SampName}.bam
         
         """
 }
