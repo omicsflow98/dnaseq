@@ -1,4 +1,4 @@
-process trimmomatic {
+process trim_galore {
         
         label 'trim_galore'
 
