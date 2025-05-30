@@ -1,27 +1,32 @@
 process trimmomatic {
         
-        label 'trimmomatic'
+        label 'trim_galore'
 
         publishDir "${params.outdir}/output/trimmed_fastq"
+        container "${params.apptainer}/trim_galore.sif"
 
         input:
-        tuple val(sample_id), path(reads)
+        tuple val(sample_id), path(File1), path(File2), val(adapter1), val(adapter2), val(LibName), val(Barcode), val(Platform)
 
         output:
-        path("*_P.fastq.gz"), emit: trimmed_fastq
-	      path("*.log")
+        path("*.gz"), emit: trimmed_fastq
+        tuple val(sample_id), val(LibName), val(Barcode), val(Platform), emit: readgroup
+	path("*.txt"), emit: fastqc
+
+        script:
 
         """
-        trimmomatic PE \
-        -phred33 \
-	-threads 8 \
-        ${reads[0]} \
-        ${reads[1]} \
-        ${sample_id}_R1_P.fastq.gz \
-        ${sample_id}_R1_U.fastq.gz \
-        ${sample_id}_R2_P.fastq.gz \
-        ${sample_id}_R2_U.fastq.gz \
-        ILLUMINACLIP:${launchDir}/adapter.fa:2:30:10:2:True LEADING:3 TRAILING:3 MINLEN:36 2> ${sample_id}.log
+        trim_galore \
+        --paired \
+        --phred33 \
+        --gzip \
+	--cores 2 \
+        --adapter ${adapter1} \
+        --adapter2 ${adapter2} \
+        --basename ${sample_id} \
+        ${File1} \
+        ${File2}
+
         """ 
 
 }
