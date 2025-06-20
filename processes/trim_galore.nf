@@ -9,8 +9,7 @@ process trim_galore {
         tuple val(sample_id), path(File1), path(File2), val(adapter1), val(adapter2), val(LibName), val(Barcode), val(Platform)
 
         output:
-        path("*.gz"), emit: trimmed_fastq
-        tuple val(sample_id), val(LibName), val(Barcode), val(Platform), emit: readgroup
+        tuple val(sample_id), val(LibName), val(Barcode), val(Platform), path("*.gz"), emit: trimmed_fastq
 	path("*.txt"), emit: fastqc
 
         script:
