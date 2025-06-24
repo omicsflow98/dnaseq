@@ -25,7 +25,8 @@ bwa_index = file( "${params.reference}/index/bwa/genome.fa.{,amb,ann,bwt,pac,sa}
 runfastqc(first_ch)
 
 if (params.trim) {
-	trimmed_reads = trim_galore(first_ch)
+	trim_galore(first_ch)
+	trimmed_reads = trim_galore.out.trimmed_fastq
 } else {
 	trimmed_reads = Channel.fromPath(params.data_csv, checkIfExists: true)
 	| splitCsv(header: true, sep: '\t')
