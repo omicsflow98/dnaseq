@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
-include {gvcf} from '../processes/VariantCalling.nf'
-include {mergedgvcf} from '../processes/VariantCalling.nf'
+include {gvcf} from '../../processes/VariantCalling.nf'
+include {mergedgvcf} from '../../processes/VariantCalling.nf'
 
 workflow variant_calling {
 	take:
@@ -9,7 +9,7 @@ workflow variant_calling {
 
 	main:
 
-	gvcf(params.reference, params.temp_dir, bam_files)
+	gvcf(params.main.reference, params.main.temp_dir, bam_files)
 
 	gvcf.out.vcf_files
 		| collect

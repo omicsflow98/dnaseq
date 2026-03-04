@@ -2,8 +2,7 @@ process BQSR {
 
 	label 'bqsr'
 
-        publishDir "${params.outdir}/output/bqsr/"
-	container "${params.apptainer}/gatk.sif"
+        publishDir "${params.main.outdir}/output/bqsr/"
 
         input:
         path reference_dir

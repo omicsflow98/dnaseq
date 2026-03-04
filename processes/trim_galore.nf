@@ -2,8 +2,7 @@ process trim_galore {
         
         label 'trim_galore'
 
-        publishDir "${params.outdir}/output/trimmed_fastq"
-        container "${params.apptainer}/trim_galore.sif"
+        publishDir "${params.main.outdir}/output/trimmed_fastq"
 
         input:
         tuple val(sample_id), path(File1), path(File2), val(adapter1), val(adapter2), val(LibName), val(Barcode), val(Platform)
