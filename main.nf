@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
-include { alignment } from './subworkflows/alignment.nf'
-include { variant_calling } from './subworkflows/variant_calling.nf'
+include { alignment } from './subworkflows/alignment/alignment.nf'
+include { variant_calling } from './subworkflows/variant_calling/variant_calling.nf'
 
 workflow {
 
